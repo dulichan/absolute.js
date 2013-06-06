@@ -38,11 +38,29 @@ var mvc = (function () {
 		var f = new File(filename);
 		return f.isExists();
 	}
-	
+	function isImage(mime){
+		switch (mime) {
+	        case 'image/png':
+	            return true;
+	        case 'image/gif':
+	            return true;
+	        case 'image/jpeg':
+	            return true;
+	        case 'image/jpg':
+	            return true;
+	    }
+	}
 	function routeAsset(resourceURL){
 		//log.info("Resource URL"+resourceURL);
-		response.addHeader('Content-Type', mime(resourceURL));
-		print(getResource(resourceURL));
+		var m = mime(resourceURL);
+		response.addHeader('Content-Type', m);
+		if(isImage(m)){
+			var f = new File(resourceURL);
+			f.open('r');
+		    print(f.getStream());
+		}else{
+			print(getResource(resourceURL));
+		}
 	}
 	//Register all the partials in the views/partial directory
 	function registerPartials(){
