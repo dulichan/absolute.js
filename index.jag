@@ -2,7 +2,7 @@
 var absolute = require ('absolute.js').absolute;
 var mvc = new absolute({
 	SERVER_URL:"/absolute/",
-	IGNORE:["sso.jag", "login.jag"]
+	IGNORE:["ignore.jag", "login.jag"]
 });
 mvc.route(request);
 %>
