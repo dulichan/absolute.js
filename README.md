@@ -35,7 +35,27 @@ Inside the index.jag file we will setup absolute.js and give a configuration. Al
 Now absolute.js is ready for request processing. 
 
 ### Conventions
+Below is the folder structure of absolute.js -
 
+	└── project directory
+       ├── assets
+       ├── controller
+	      ├── app.js
+	      ├── console.js
+       ├── index.jag
+       ├── jaggery.conf
+       ├── modules
+	      ├── handlebars.js
+	      ├── absolute.js
+       ├── pages
+	      ├── 1-column.hbs
+       ├── views
+	      ├── console
+	      	 ├── view.hbs
+	      ├── partials
+	      	 ├── header.hbs
+	      	 ├── footer.hbs		
+	
 The concept of mvc is simple. We have a model, a view and a controller. In our example app we haven't followed a model approach to data (Note: This is also very simple since JSON and database library bridge exists in jaggery).
 
 #### A Request procedure 
