@@ -1,44 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Absolute.js by dulichan</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <title>Absolute.js by dulichan</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/dulichan/absolute.js">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/dulichan/absolute.js/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/dulichan/absolute.js/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <div id="container">
+      <div class="inner">
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
+        <header>
           <h1>Absolute.js</h1>
-          <p>MVC on steroids for JaggeryJS</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/dulichan">dulichan</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
+          <h2>MVC on steroids for JaggeryJS</h2>
+        </header>
 
-        <h1>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/dulichan/absolute.js/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/dulichan/absolute.js/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/dulichan/absolute.js" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
 <a name="absolutejs" class="anchor" href="#absolutejs"><span class="octicon octicon-link"></span></a>absolute.js</h1>
 
 <blockquote>
@@ -51,8 +44,9 @@
 <a name="simple-configuration" class="anchor" href="#simple-configuration"><span class="octicon octicon-link"></span></a>Simple Configuration</h3>
 
 <p>First we have to redirect all the requests from jaggery configuration file to a jag file.
-``` javascript jaggery.conf
-{
+<strong>jaggery.conf</strong></p>
+
+<pre><code>{
     "welcomeFiles": ["index.jag"],
     "urlMappings": [
         {
@@ -61,13 +55,14 @@
         }
     ],
     "logLevel": "info"
-}</p>
+}
+</code></pre>
 
-<pre><code>
-Inside the index.jag file we will setup absolute.js and give a configuration. Also note that defaults are handled inside absolute.js. 
+<p>Inside the index.jag file we will setup absolute.js and give a configuration. Also note that defaults are handled inside absolute.js. </p>
 
-``` javascript index.jag
-&lt;%
+<p><strong>index.jag</strong></p>
+
+<pre><code>&lt;%
 var mvc = require ('absolute.js').mvc;
 var mvcp = new mvc({
     SERVER_URL:"/publisher/"
@@ -83,24 +78,25 @@ mvcp.route(request);
 
 <p>First we have to look into the folder layout -</p>
 
-<p>{% img /images/filestructure.png %}</p>
+<p><img src="http://i.imgur.com/fs6dnDh.png" alt="Folder Structure"></p>
 
 <p>The concept of mvc is simple. We have a model, a view and a controller. In our example app we haven't followed a model approach to data (Note: This is also very simple since JSON and database library bridge exists in jaggery).</p>
 
 <h4>
 <a name="a-request-procedure" class="anchor" href="#a-request-procedure"><span class="octicon octicon-link"></span></a>A Request procedure</h4>
 
-<p>The request comes to the absolute.js module. If the requst URI is - '/publisher/console/list' </p>
+<p>The request comes to the absolute.js module. If the requst URI is - <code>/publisher/console/list</code></p>
 
-<pre><code>*   '/publisher' is the context of the app
-*   '/console' is the controller 
-*   '/list' is the view 
+<pre><code>*   `/publisher` is the context of the app
+*   `/console` is the controller 
+*   `/list` is the view 
 </code></pre>
 
 <p>Controllers are contained in the controller folder of the context application. The controller is created with the same name. Inside the controller it will have a function named after the view. absolute.js will execute this function and the return json object will be provided to the template engine.</p>
 
-<p>``` javascript console.js
-list = function(){
+<p><strong>console.js</strong></p>
+
+<pre><code>list = function(){
     return {name:"Chan", quote:"I was a king I had a gold throne"};
 }
 manager = function(){
@@ -109,18 +105,21 @@ manager = function(){
 }
 upload = function(){
     return {name:"Chan", quote:"I was a king I had a gold throne"};
-}</p>
-
-<pre><code>
-I am currently working on the layout and partials handling inside absolute.js. 
-
-
-Note:- Initial credit of the idea of building a simple mvc framework for jaggery goes to  [Dilan](https://twitter.com/chatu_dil "Dilan")
+}
 </code></pre>
-      </section>
 
+<p>I am currently working on the layout and partials handling inside absolute.js. </p>
+
+<p>Note:- Initial credit of the idea of building a simple mvc framework for jaggery goes to  <a href="https://twitter.com/chatu_dil" title="Dilan">Dilan</a></p>
+        </section>
+
+        <footer>
+          Absolute.js is maintained by <a href="https://github.com/dulichan">dulichan</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
   </body>
 </html>
