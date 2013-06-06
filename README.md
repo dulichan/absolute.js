@@ -22,6 +22,7 @@ First we have to redirect all the requests from jaggery configuration file to a 
 Inside the index.jag file we will setup absolute.js and give a configuration. Also note that defaults are handled inside absolute.js. 
 
 **index.jag**
+
 	<%
 	var mvc = require ('absolute.js').mvc;
 	var mvcp = new mvc({
