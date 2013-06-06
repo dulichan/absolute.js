@@ -8,6 +8,7 @@ The objective of absolute.js is to handle front-end development work with simpli
 ### Simple Configuration
 First we have to redirect all the requests from jaggery configuration file to a jag file.
 **jaggery.conf**
+
 	{
 	    "welcomeFiles": ["index.jag"],
 	    "urlMappings": [
@@ -21,6 +22,7 @@ First we have to redirect all the requests from jaggery configuration file to a 
 Inside the index.jag file we will setup absolute.js and give a configuration. Also note that defaults are handled inside absolute.js. 
 
 **index.jag**
+
 	<%
 	var mvc = require ('absolute.js').mvc;
 	var mvcp = new mvc({
@@ -33,9 +35,6 @@ Inside the index.jag file we will setup absolute.js and give a configuration. Al
 Now absolute.js is ready for request processing. 
 
 ### Conventions
-First we have to look into the folder layout -
-
-![Folder Structure] http://i.imgur.com/fs6dnDh.png
 
 The concept of mvc is simple. We have a model, a view and a controller. In our example app we haven't followed a model approach to data (Note: This is also very simple since JSON and database library bridge exists in jaggery).
 
