@@ -3,7 +3,7 @@ var mvc = (function () {
 	var configs= {
 		SERVER_URL: "/",
 		ENGINE: "hbs"
-	};;
+	};
 	var log;
 	var module = function (cf) {
 		mergeRecursive(configs,cf);
@@ -132,6 +132,18 @@ var mvc = (function () {
 	            return 'text/plain';
 	    }
 	}
+	//Call
+	function callAPI(request){
+		
+	}
+	//Check if API route is provided and 
+	//if the current call is for the API
+	function isAPI(pageParams){
+		if(configs.API==undefined){
+			return false;
+		}
+		return pageParams[0]== configs.API;
+	}
 	// prototype
     module.prototype = {
         constructor: module,
@@ -145,10 +157,16 @@ var mvc = (function () {
 					return;
 				} 
 			};
+			
 			log.info("Request url: "+reqURL);
 			log.info("Page url: "+pageURL);
 			
 			var pageParams = pageURL.split('/');
+			
+			if(isAPI(pageParams)){
+				callAPI(req);
+				return;
+			}
 			//Send the last part of the uri 
 			//Routing assets
 			if(isAsset(pageParams[pageParams.length-1])){
@@ -197,7 +215,8 @@ var mvc = (function () {
 					//If the controller hasn't specified a layout
 					print(b);
 				}else{
-					print(layout({body:b, partials: context.partials}));
+					//Now mixing the controller context with generated body template
+					print(layout(mergeRecursive({body:b}, context)));
 				}
 			}
         }
