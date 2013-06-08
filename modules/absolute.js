@@ -134,7 +134,8 @@ var mvc = (function () {
 	}
 	//Call
 	function callAPI(request){
-		
+		log.info("Router process ");
+		configs.ROUTER.process(request);
 	}
 	//Check if API route is provided and 
 	//if the current call is for the API
@@ -142,6 +143,7 @@ var mvc = (function () {
 		if(configs.API==undefined){
 			return false;
 		}
+		log.info("K "+pageParams[0]);
 		return pageParams[0]== configs.API;
 	}
 	// prototype
@@ -197,6 +199,12 @@ var mvc = (function () {
 			}
 			
 			var context;
+			//If controller is empty the request is for the app index page
+			if(controller==''){
+				if(appController.index!=undefined){
+					context = appController.index();	
+				}
+			}
 			if(isExists('/controller/'+controller+".js") && require('/controller/'+controller+".js")[viewName] !=undefined){
 				context = require('/controller/'+controller+".js")[viewName](appController);
 				log.info("Current context "+context);
