@@ -216,7 +216,11 @@ var mvc = (function () {
 			}
 			//If we can't find a controller as well as a view we are sending a 404 error
 			if(template==undefined && context==undefined){
-				response.sendError(404);
+				try{
+					response.sendError(404);
+				}catch (e) {
+					new Log().debug(e);
+				}
 			}else{
 				var b = template(context);
 				if(layout==undefined){
