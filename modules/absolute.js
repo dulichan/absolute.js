@@ -48,6 +48,8 @@ var mvc = (function () {
 	            return true;
 	        case 'image/jpg':
 	            return true;
+			case 'application/vnd.android.package-archive':
+				return true;
 	    }
 	}
 	function routeAsset(resourceURL){
@@ -128,8 +130,10 @@ var mvc = (function () {
 	            return 'image/jpeg';
 	        case 'jpg':
 	            return 'image/jpg';
-	        default :
-	            return 'text/plain';
+	        case 'apk':
+	            return 'application/vnd.android.package-archive';
+			default:
+				return 'text/plain';
 	    }
 	}
 	//Call

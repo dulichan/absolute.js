@@ -1,5 +1,5 @@
 <%
-var absolute = require ('absolute.js').absolute;
+var absolute = require ('modules/absolute.js').mvc;
 var mvc = new absolute({
 	SERVER_URL:"/absolute/",
 	IGNORE:["ignore.jag", "login.jag"]
