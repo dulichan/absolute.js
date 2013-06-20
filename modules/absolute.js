@@ -76,38 +76,6 @@ var mvc = (function () {
 		}
 	}
 	
-	function registerHelpers(){
-		// Handlebars.registerHelper('include', function (contexts) {
-		// 		Handle.compile('')
-		// 		return new Handlebars.SafeString(html);
-		// 	});
-		// From Caramel core/caramel/scripts/caramel.handlebars.js
-		// Handlebars.registerHelper('include', function (contexts) {
-		// 		        var i, type,
-		// 		            length = contexts ? contexts.length : 0,
-		// 		            html = '';
-		// 		        if (log.isDebugEnabled()) {
-		// 		            log.debug('Including : ' + stringify(contexts));
-		// 		        }
-		// 		        if (length == 0) {
-		// 		            return html;
-		// 		        }
-		// 		        type = typeof contexts;
-		// 		        if (contexts instanceof Array) {
-		// 		            for (i = 0; i < length; i++) {
-		// 		                html += renderData(contexts[i]);
-		// 		            }
-		// 		        } else if (contexts instanceof String || type === 'string' ||
-		// 		            contexts instanceof Number || type === 'number' ||
-		// 		            contexts instanceof Boolean || type === 'boolean') {
-		// 		            html = contexts.toString();
-		// 		        } else {
-		// 		            html = renderData(contexts);
-		// 		        }
-		// 		        return new Handlebars.SafeString(html);
-		// 		 });
-	}
-	
 	//If the path has a . return true
 	function isAsset(path){
 		return path.indexOf(".")!=-1
@@ -235,7 +203,13 @@ var mvc = (function () {
 					print(layout(mergeRecursive({body:b}, context)));
 				}
 			}
-        }
+        },
+		registerHelper: function(helperName, helperFunction){
+			Handlebars.registerHelper(helperName, helperFunction);
+		},
+		registerPartial: function(partialName, partial){
+			Handle.registerPartial(partialName,partial);
+		}
     };
 // return module
     return module;
