@@ -38,7 +38,7 @@ var mvc = (function () {
 		var f = new File(filename);
 		return f.isExists();
 	}
-	function isImage(mime){
+	function isBinaryResource(mime){
 		switch (mime) {
 	        case 'image/png':
 	            return true;
@@ -50,16 +50,19 @@ var mvc = (function () {
 	            return true;
 			case 'application/vnd.android.package-archive':
 				return true;
+			case 'application/octet-stream':
+				return true;
 	    }
 	}
 	function routeAsset(resourceURL){
 		//log.info("Resource URL"+resourceURL);
 		var m = mime(resourceURL);
 		response.addHeader('Content-Type', m);
-		if(isImage(m)){
+		if(isBinaryResource(m)){
 			var f = new File(resourceURL);
 			f.open('r');
 		    print(f.getStream());
+			f.close();
 		}else{
 			print(getResource(resourceURL));
 		}
@@ -73,6 +76,7 @@ var mvc = (function () {
 			partial.open('r');
 			Handle.registerPartial(partial.getName().split('.')[0], partial.readAll());
 			log.info("Handle registered template -"+partial.getName().split('.')[0]);
+			partial.close();
 		}
 	}
 	
@@ -100,6 +104,10 @@ var mvc = (function () {
 	            return 'image/jpg';
 	        case 'apk':
 	            return 'application/vnd.android.package-archive';
+			case 'ipa':
+				return 'application/octet-stream';
+			case 'plist':
+				return 'text/xml';
 			default:
 				return 'text/plain';
 	    }
@@ -205,10 +213,14 @@ var mvc = (function () {
 			}
         },
 		registerHelper: function(helperName, helperFunction){
-			Handlebars.registerHelper(helperName, helperFunction);
+			Handle.registerHelper(helperName, helperFunction);
 		},
 		registerPartial: function(partialName, partial){
 			Handle.registerPartial(partialName,partial);
+		},
+		compileTemplate: function(templatePath, context){
+			var template = Handle.compile(getResource(templatePath));
+			return template(context);
 		}
     };
 // return module
