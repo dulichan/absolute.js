@@ -1,8 +1,11 @@
 <%
 var absolute = require ('modules/absolute.js').mvc;
+var user = {roles:['everyone']};
 var mvc = new absolute({
 	SERVER_URL:"/absolute/",
-	IGNORE:["ignore.jag", "login.jag"]
+	IGNORE:["ignore.jag", "login.jag"],
+	AUTH_SUPPORT: true, 
+	AUTH_USER_ROLES:user.roles
 });
 mvc.route(request);
 %>

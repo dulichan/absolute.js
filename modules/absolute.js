@@ -126,6 +126,20 @@ var mvc = (function () {
 		log.info("K "+pageParams[0]);
 		return pageParams[0]== configs.API;
 	}
+	
+	function isArrayOverlap(array1, array2){
+		for (var i = array1.length - 1; i >= 0; i--){
+			var array1Element = array1[i];
+			for (var j = array2.length - 1; j >= 0; j--){
+				var array2Element = array2[j];
+				if(array1Element==array2Element){
+					return true;
+				}
+			};
+		};
+		return false;
+	}
+	
 	// prototype
     module.prototype = {
         constructor: module,
@@ -192,6 +206,16 @@ var mvc = (function () {
 			//Extracting the layout from the controller
 			var layout;
 			if(context!=undefined && context.layout!=undefined){
+				if(configs.AUTH_SUPPORT){
+					if(context.auth_roles!=undefined && context.auth_roles.length>0){
+						var authState = isArrayOverlap(configs.AUTH_USER_ROLES, context.auth_roles);
+						if(!authState){
+							 log.debug("--------Goose Auth Error (User roles doesn't match with route roles)--------");
+							 response.sendError(403);
+							 return;
+						}
+					}
+				}
 				layout = Handle.compile(getResource("/pages/"+context.layout+".hbs"));
 			}
 			//If we can't find a controller as well as a view we are sending a 404 error
