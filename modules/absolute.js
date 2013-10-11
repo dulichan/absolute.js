@@ -75,7 +75,7 @@ var mvc = (function () {
 			var partial = partials[i];
 			partial.open('r');
 			Handle.registerPartial(partial.getName().split('.')[0], partial.readAll());
-			log.info("Handle registered template -"+partial.getName().split('.')[0]);
+			log.debug("Handle registered template -"+partial.getName().split('.')[0]);
 			partial.close();
 		}
 	}
@@ -108,13 +108,17 @@ var mvc = (function () {
 				return 'application/octet-stream';
 			case 'plist':
 				return 'text/xml';
+			case 'woff':
+	            return 'application/octet-stream';    
+	        case 'ttf':
+	            return 'application/octet-stream'; 
 			default:
 				return 'text/plain';
 	    }
 	}
 	//Call
 	function callAPI(request){
-		log.info("Router process ");
+		log.debug("Router process ");
 		configs.ROUTER.process(request);
 	}
 	//Check if API route is provided and 
@@ -123,7 +127,7 @@ var mvc = (function () {
 		if(configs.API==undefined){
 			return false;
 		}
-		log.info("K "+pageParams[0]);
+		log.debug("K "+pageParams[0]);
 		return pageParams[0]== configs.API;
 	}
 	
@@ -154,8 +158,8 @@ var mvc = (function () {
 				} 
 			};
 			
-			log.info("Request url: "+reqURL);
-			log.info("Page url: "+pageURL);
+			log.debug("Request url: "+reqURL);
+			log.debug("Page url: "+pageURL);
 			
 			var pageParams = pageURL.split('/');
 			
@@ -177,7 +181,7 @@ var mvc = (function () {
 			}
 			var viewName = view;
 			view = view+"."+configs.ENGINE;
-			log.info("View "+ view);
+			log.debug("View "+ view);
 			
 			//App controller
 			var appController;
@@ -201,7 +205,7 @@ var mvc = (function () {
 			}
 			if(isExists('/controller/'+controller+".js") && require('/controller/'+controller+".js")[viewName] !=undefined){
 				context = require('/controller/'+controller+".js")[viewName](appController);
-				log.info("Current context "+context);
+				log.debug("Current context "+context);
 			}		
 			//Extracting the layout from the controller
 			var layout;
@@ -226,13 +230,15 @@ var mvc = (function () {
 					new Log().debug(e);
 				}
 			}else{
-				var b = template(context);
-				if(layout==undefined){
-					//If the controller hasn't specified a layout
-					print(b);
-				}else{
-					//Now mixing the controller context with generated body template
-					print(layout(mergeRecursive({body:b}, context)));
+				if(template!=undefined){
+						var b = template(context);
+						if(layout==undefined){
+							//If the controller hasn't specified a layout
+							print(b);
+						}else{
+							//Now mixing the controller context with generated body template
+							print(layout(mergeRecursive({body:b}, context)));
+						}
 				}
 			}
         },
